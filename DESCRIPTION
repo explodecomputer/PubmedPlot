@@ -1,0 +1,27 @@
+Package: PubmedPlot
+Title: Plot time trends in Pubmed search results
+Version: 0.0.0.9000
+Authors@R: 
+    person("Gibran", "Hemani", , "explodecomputer@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0920-1055"))
+Description: Plot time trends in Pubmed search results
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Depends:
+    R (>= 4.0.0),
+    dplyr
+Import: 
+    readr,
+    lubridate,
+    tidyr,
+    ggplot2,
+    jsonlite,
+    httr,
+    XML
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
