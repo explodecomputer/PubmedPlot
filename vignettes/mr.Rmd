@@ -1,8 +1,8 @@
 ---
-title: "mr"
+title: "MR publications over time"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{mr}
+  %\VignetteIndexEntry{MR publications over time}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = TRUE
 )
 ```
 

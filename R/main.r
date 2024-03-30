@@ -69,9 +69,9 @@ search <- function(term) {
                 dplyr::mutate(tend=lubridate::ceiling_date(tend,unit=z)-1),
             dat %>%
                 dplyr::group_by(tend) %>%
-                dplyr::summarise(n=as.numeric(n()), .groups='drop'),by=join_by(tend)
+                dplyr::summarise(n = as.numeric(dplyr::n()), .groups='drop'),by = dplyr::join_by(tend)
         ) %>%
-            dplyr::mutate(n=if_else(!is.finite(n),as.numeric(0),n)) %>%
+            dplyr::mutate(n=dplyr::if_else(!is.finite(n),as.numeric(0),n)) %>%
             dplyr::ungroup() %>%
             dplyr::mutate(time_level=z) 
     }) %>%
