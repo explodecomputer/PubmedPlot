@@ -41,6 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/abstracts.html">abstracts</a>
     <a class="dropdown-item" href="../articles/mr.html">MR publications over time</a>
   </div>
 </li>
@@ -90,12 +91,7 @@
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">PubmedPlot</span><span class="fu">::</span><span class="fu"><a href="../reference/search.html">search</a></span><span class="op">(</span><span class="st">'"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There was 1 warning in `dplyr::mutate()`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `pub_date = lubridate::ymd(pub_date)`.</span></span>
-<span><span class="co">#&gt; Caused by warning:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span>  3927 failed to parse.</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="va">res</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="va">res</span></span>
 <span><span class="va">cap_verb</span><span class="op">=</span><span class="st">"Data from PubMed search for Mendelian randomi[s/z]ation, title only. "</span></span>
 <span><span class="va">xlab</span><span class="op">=</span><span class="st">"Date"</span></span>
 <span><span class="va">ylab_root</span><span class="op">=</span><span class="st">"New PubMed Entries"</span></span>
@@ -128,7 +124,7 @@
 <span>       caption<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Most recent publication date:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">time_level</span><span class="op">==</span><span class="st">"Weeks"</span><span class="op">)</span><span class="op">$</span><span class="va">pubmed_date</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>       x<span class="op">=</span><span class="st">"Date"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_mrlit</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span></span></code></pre></div>
 <p><img src="mr_files/figure-html/mr_fig-1.png" width="768"></p>
   </main>
