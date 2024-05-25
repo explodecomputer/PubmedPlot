@@ -39,11 +39,14 @@ search <- function(term) {
 
     doc <- XML::xmlParse(summary_content)
 
-    pub_dates <- XML::xpathApply(doc, "//DocSum", function(node) {
-        pmid <- XML::xmlValue(node[["Id"]])
-        pub_date <- XML::xmlValue(node[[2]])
-        dplyr::tibble(pmid = pmid, pub_date = pub_date)
-    }) %>% dplyr::bind_rows() %>% dplyr::mutate(pub_date = lubridate::ymd(pub_date))
+    sdoc <- XML::xmlParse(summary_content)
+    pubmed_id <- XML::getNodeSet(sdoc, "//Id") %>%
+        sapply(., XML::xmlValue)
+
+    pubmed_date_node <- XML::getNodeSet(sdoc, "//Item[@Name='History']/Item[@Name='pubmed']") %>%
+        sapply(., \(x) XML::xmlValue(x) %>% strsplit(., " ") %>% {.[[1]][1]})
+
+    pub_dates <- dplyr::tibble(pmid=pubmed_id, pub_date=lubridate::ymd(pubmed_date_node))
 
     max_pubmed_date <- max(pub_dates$pub_date, na.rm=TRUE)
 
@@ -82,4 +85,3 @@ search <- function(term) {
         dplyr::mutate(last_pubmed_date=max_pubmed_date)
     return(list(pub_dates=pub_dates, res=res))
 }
-
