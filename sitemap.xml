@@ -1,36 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/404.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/articles/abstracts.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/articles/mr.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/index.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://explodecomputer.github.io/PubmedPlot/reference/search.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/404.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/LICENSE-text.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/LICENSE.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/articles/abstracts.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/articles/index.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/articles/mr.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/authors.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/index.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/reference/index.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/reference/pipe.html</loc></url>
+<url><loc>https://explodecomputer.github.io/PubmedPlot/reference/search.html</loc></url>
 </urlset>
+
