@@ -84,7 +84,7 @@
 <span></span>
 <span><span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
 <span><span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
-<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
+<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pmids</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
 <span><span class="co"># length(pmids)</span></span>
@@ -128,7 +128,7 @@
 <span>    <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="extract-tiab">Extract tiab<a class="anchor" aria-label="anchor" href="#extract-tiab"></a>
 </h2>
@@ -146,7 +146,7 @@
 <span></span>
 <span><span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
 <span><span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
-<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
+<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pmids2</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
 <span></span>
@@ -164,7 +164,7 @@
 <span></span>
 <span><span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
 <span><span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
-<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
+<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pmids3</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">pmids3</span><span class="op">)</span></span>
@@ -213,7 +213,7 @@
 <span>    <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed_new.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed_new.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main>
 </div>
