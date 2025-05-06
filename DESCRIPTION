@@ -8,7 +8,7 @@ Description: Plot time trends in Pubmed search results.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.1.0)
 Imports: 
     dplyr,
     lubridate,
@@ -17,11 +17,11 @@ Imports:
     httr,
     stringr,
     XML,
-    magrittr
+    magrittr,
+    ggplot2
 Suggests: 
     knitr,
-    rmarkdown,
-    ggplot2
+    rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
