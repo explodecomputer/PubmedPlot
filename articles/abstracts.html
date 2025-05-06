@@ -87,9 +87,25 @@
 <span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pmids</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
+<span></span>
+<span><span class="va">count</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">count</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">retmax</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">retmax</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">remainder</span> <span class="op">&lt;-</span> <span class="va">count</span> <span class="op">-</span> <span class="va">retmax</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">remainder</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">search_params</span><span class="op">$</span><span class="va">retstart</span> <span class="op">&lt;-</span> <span class="va">retmax</span></span>
+<span>    <span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
+<span>    <span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
+<span>    <span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
+<span>    <span class="va">pmids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">pmids</span>, <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
 <span><span class="co"># length(pmids)</span></span>
 <span></span>
 <span><span class="va">efetch_url</span> <span class="op">&lt;-</span> <span class="st">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"</span></span>
+<span></span>
+<span></span>
+<span></span>
 <span></span>
 <span><span class="co"># Prepare the body of the POST request for XML output</span></span>
 <span><span class="va">efetch_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -99,9 +115,12 @@
 <span>  retmode <span class="op">=</span> <span class="st">"xml"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Query how many pmids</span></span>
+<span></span>
 <span><span class="co"># Make the POST request to fetch abstracts</span></span>
 <span><span class="va">efetch_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/POST.html" class="external-link">POST</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">efetch_url</span>, body <span class="op">=</span> <span class="va">efetch_params</span>, encode <span class="op">=</span> <span class="st">"form"</span><span class="op">)</span></span>
 <span><span class="va">efetch_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">efetch_response</span>, <span class="st">"text"</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span>
+<span></span>
 <span></span>
 <span><span class="co"># Parse the XML content</span></span>
 <span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu">XML</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlTreeParse.html" class="external-link">xmlParse</a></span><span class="op">(</span><span class="va">efetch_content</span><span class="op">)</span></span>
@@ -129,92 +148,9 @@
 <span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="extract-tiab">Extract tiab<a class="anchor" aria-label="anchor" href="#extract-tiab"></a>
-</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">term</span> <span class="op">&lt;-</span> <span class="st">'"Mendelian randomisation" [tiab]'</span></span>
-<span></span>
-<span><span class="va">search_url</span> <span class="op">&lt;-</span> <span class="st">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"</span></span>
-<span><span class="va">search_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    db <span class="op">=</span> <span class="st">"pubmed"</span>,</span>
-<span>    term <span class="op">=</span> <span class="va">term</span>,</span>
-<span>    retmode <span class="op">=</span> <span class="st">"json"</span>,</span>
-<span>    usehistory <span class="op">=</span> <span class="st">"y"</span>,</span>
-<span>    retmax <span class="op">=</span> <span class="fl">20000</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
-<span><span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
-<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pmids2</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
-<span></span>
-<span></span>
-<span><span class="va">term</span> <span class="op">&lt;-</span> <span class="st">'"Mendelian randomization" [tiab]'</span></span>
-<span></span>
-<span><span class="va">search_url</span> <span class="op">&lt;-</span> <span class="st">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"</span></span>
-<span><span class="va">search_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    db <span class="op">=</span> <span class="st">"pubmed"</span>,</span>
-<span>    term <span class="op">=</span> <span class="va">term</span>,</span>
-<span>    retmode <span class="op">=</span> <span class="st">"json"</span>,</span>
-<span>    usehistory <span class="op">=</span> <span class="st">"y"</span>,</span>
-<span>    retmax <span class="op">=</span> <span class="fl">20000</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">search_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">search_url</span>, query <span class="op">=</span> <span class="va">search_params</span><span class="op">)</span></span>
-<span><span class="va">search_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">search_response</span>, <span class="st">"text"</span><span class="op">)</span></span>
-<span><span class="va">search_result</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">fromJSON</a></span><span class="op">(</span><span class="va">search_content</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pmids3</span> <span class="op">&lt;-</span> <span class="va">search_result</span><span class="op">$</span><span class="va">esearchresult</span><span class="op">$</span><span class="va">idlist</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">pmids3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pmidstiab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">pmids2</span>, <span class="va">pmids3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">pmids_new</span> <span class="op">&lt;-</span> <span class="va">pmidstiab</span><span class="op">[</span><span class="op">!</span><span class="va">pmidstiab</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">pmids</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">pmids_new</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="va">efetch_url</span> <span class="op">&lt;-</span> <span class="st">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"</span></span>
-<span></span>
-<span><span class="co"># Prepare the body of the POST request for XML output</span></span>
-<span><span class="va">efetch_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  db <span class="op">=</span> <span class="st">"pubmed"</span>,</span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">pmids_new</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
-<span>  rettype <span class="op">=</span> <span class="st">"abstract"</span>,</span>
-<span>  retmode <span class="op">=</span> <span class="st">"xml"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Make the POST request to fetch abstracts</span></span>
-<span><span class="va">efetch_response</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/POST.html" class="external-link">POST</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">efetch_url</span>, body <span class="op">=</span> <span class="va">efetch_params</span>, encode <span class="op">=</span> <span class="st">"form"</span><span class="op">)</span></span>
-<span><span class="va">efetch_content</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">efetch_response</span>, <span class="st">"text"</span>, encoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Parse the XML content</span></span>
-<span><span class="va">doc</span> <span class="op">&lt;-</span> <span class="fu">XML</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlTreeParse.html" class="external-link">xmlParse</a></span><span class="op">(</span><span class="va">efetch_content</span><span class="op">)</span></span>
-<span><span class="va">xmltop</span> <span class="op">&lt;-</span> <span class="fu">XML</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlRoot.html" class="external-link">xmlRoot</a></span><span class="op">(</span><span class="va">doc</span><span class="op">)</span></span>
-<span><span class="co"># xmlSize(xmltop)</span></span>
-<span><span class="co"># xmlName(xmltop[[1]][[1]][[1]])</span></span>
-<span><span class="co"># xmlValue(xmltop[[1]][[]][["PMID"]])</span></span>
-<span></span>
-<span><span class="va">pub_dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/getNodeSet.html" class="external-link">xpathApply</a></span><span class="op">(</span><span class="va">doc</span>, <span class="st">'//PubmedArticle'</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>        pmid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"PMID"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        ab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Article"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Abstract"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        pub_date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span></span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="st">"PubmedData"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"History"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"PubMedPubDate"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Year"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="st">"PubmedData"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"History"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"PubMedPubDate"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Month"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="st">"PubmedData"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"History"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"PubMedPubDate"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Day"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>            <span class="op">)</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Article"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"ArticleTitle"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        journal_issn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Article"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Journal"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"ISSN"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        journal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Article"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Journal"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Title"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        author_affil <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/XML/man/xmlValue.html" class="external-link">xmlValue</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Article"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"AuthorList"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"AffiliationInfo"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">pub_dates</span>, path<span class="op">=</span><span class="st">"pubmed_new.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">PubmedPlot</span><span class="fu">::</span><span class="fu"><a href="../reference/search_term_by_year.html">search_term_by_year</a></span><span class="op">(</span><span class="st">'"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]'</span>, <span class="fl">2003</span><span class="op">:</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/read_json.html" class="external-link">write_json</a></span><span class="op">(</span><span class="va">a</span>, path<span class="op">=</span><span class="st">"pubmed.json"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
   </main>
 </div>
 
