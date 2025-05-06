@@ -64,23 +64,23 @@ search_term <- function(term) {
       # xmlName(xmltop[[1]][[1]][[1]])
       # xmlValue(xmltop[[1]][[]][["PMID"]])
 
-      pub_dates <- xpathApply(doc, '//PubmedArticle', \(x) {
+      pub_dates <- XML::xpathApply(doc, '//PubmedArticle', \(x) {
       dplyr::tibble(
-        pmid = xmlValue(x[[1]][["PMID"]]),
-        ab = xmlValue(x[[1]][["Article"]][["Abstract"]]),
+        pmid = XML::xmlValue(x[[1]][["PMID"]]),
+        ab = XML::xmlValue(x[[1]][["Article"]][["Abstract"]]),
         pub_date = lubridate::ymd(
         paste(
-          xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Year"]]),
-          xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Month"]]),
-          xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Day"]])
+          XML::xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Year"]]),
+          XML::xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Month"]]),
+          XML::xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Day"]])
         )
         ),
-        title = xmlValue(x[[1]][["Article"]][["ArticleTitle"]]),
-        journal_issn = xmlValue(x[[1]][["Article"]][["Journal"]][["ISSN"]]),
-        journal = xmlValue(x[[1]][["Article"]][["Journal"]][["Title"]]),
-        author_affil = xmlValue(x[[1]][["Article"]][["AuthorList"]][[1]][["AffiliationInfo"]])
+        title = XML::xmlValue(x[[1]][["Article"]][["ArticleTitle"]]),
+        journal_issn = XML::xmlValue(x[[1]][["Article"]][["Journal"]][["ISSN"]]),
+        journal = XML::xmlValue(x[[1]][["Article"]][["Journal"]][["Title"]]),
+        author_affil = XML::xmlValue(x[[1]][["Article"]][["AuthorList"]][[1]][["AffiliationInfo"]])
       )
-      }) %>% bind_rows()
+      }) %>% dplyr::bind_rows()
       all_pub_dates[[start+1]] <- pub_dates
     } else {
       cat("Error fetching records:", httr::status_code(fetch_response), "\n")
@@ -108,8 +108,8 @@ search_term_by_year <- function(term, years) {
     cat("Search term:", sterm, "\n")
     pub_dates[[as.character(year)]] <- search_term(sterm)
   }
-  pub_dates <- bind_rows(pub_dates) %>% 
-    filter(!duplicated(pmid))
+  pub_dates <- dplyr::bind_rows(pub_dates) %>% 
+    dplyr::filter(!duplicated(pmid))
   return(pub_dates)
 }
 
@@ -172,6 +172,7 @@ group_by_time_interval <- function(pub_dates) {
 #' @param x The results group_by_time_interval
 #' @param interval The time interval to plot. Default is "Weeks". Choose "Weeks", "Months", "Years".
 #' @return A ggplot object.
+#' @importFrom ggplot2 '%+replace%'
 #' @export
 plot_time_interval <- function(x, interval = "Weeks") {
 
@@ -182,27 +183,28 @@ plot_time_interval <- function(x, interval = "Weeks") {
   mycol="dodgerblue3"
   lwidth=.4
 
+  '%+replace%' <- ggplot2::'%+replace%' # nolint
   theme_mrlit <- function(...){
-    theme_classic(base_size=14) %+replace%
-      theme(legend.position="bottom",
-            strip.background=element_rect(colour='grey99',fill='grey98'),
-            panel.grid.major=element_line(linewidth=lwidth/3,colour='grey'),
-            panel.grid.minor=element_line(linewidth=lwidth/5,colour='grey'),
-            plot.background=element_rect(fill=NA,linewidth=lwidth/2,colour='grey'),
-            panel.border=element_rect(fill=NA,linewidth=lwidth/2,colour='grey'),
-            axis.line=element_line(linewidth=.2),
-            axis.ticks=element_line(linewidth=.2))
+    ggplot2::theme_classic(base_size=14) %+replace%
+      ggplot2::theme(legend.position="bottom",
+            strip.background=ggplot2::element_rect(colour='grey99',fill='grey98'),
+            panel.grid.major=ggplot2::element_line(linewidth=lwidth/3,colour='grey'),
+            panel.grid.minor=ggplot2::element_line(linewidth=lwidth/5,colour='grey'),
+            plot.background=ggplot2::element_rect(fill=NA,linewidth=lwidth/2,colour='grey'),
+            panel.border=ggplot2::element_rect(fill=NA,linewidth=lwidth/2,colour='grey'),
+            axis.line=ggplot2::element_line(linewidth=.2),
+            axis.ticks=ggplot2::element_line(linewidth=.2))
   }
 
   ## plot ####
-  p <- ggplot(x$res |> 
-            filter(time_level == interval & pubmed_date != max(pubmed_date,na.rm=F)), aes(pubmed_date,n_publications)) +
-    geom_point(size = .25, colour = mycol, alpha = 1) +
-    geom_line(alpha = .75, colour = mycol) +
-    geom_line(data = x$res %>% filter(time_level == interval), linetype=2, alpha=.75, colour=mycol) +
-    scale_x_date(date_minor_breaks = "1 year") +
+  p <- ggplot2::ggplot(x$res |> 
+            dplyr::filter(time_level == interval & pubmed_date != max(pubmed_date,na.rm=F)), ggplot2::aes(pubmed_date,n_publications)) +
+    ggplot2::geom_point(size = .25, colour = mycol, alpha = 1) +
+    ggplot2::geom_line(alpha = .75, colour = mycol) +
+    ggplot2::geom_line(data = x$res %>% dplyr::filter(time_level == interval), linetype=2, alpha=.75, colour=mycol) +
+    ggplot2::scale_x_date(date_minor_breaks = "1 year") +
     
-    labs(x="Date",
+    ggplot2::labs(x="Date",
         y=paste(ylab_root, lab),
         caption=paste("Most recent publication date:", max(subset(x$res, time_level==interval)$pubmed_date)),
         x="Date") +
