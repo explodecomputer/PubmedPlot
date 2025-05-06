@@ -24,8 +24,8 @@ library(lubridate)
 
 
 ```{r}
-a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:2005)
-# a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:lubridate::year(Sys.Date()))
+# a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:2005)
+a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:lubridate::year(Sys.Date()))
 b <- group_by_time_interval(a)
 p <- plot_time_interval(b)
 ```
