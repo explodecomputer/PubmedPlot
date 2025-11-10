@@ -1,0 +1,92 @@
+# abstracts
+
+``` r
+library(PubmedPlot)
+library(jsonlite)
+library(dplyr)
+library(XML)
+
+
+term <- '"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]'
+
+search_url <- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+search_params <- list(
+    db = "pubmed",
+    term = term,
+    retmode = "json",
+    usehistory = "y",
+    retmax = 20000
+)
+
+search_response <- httr::GET(url = search_url, query = search_params)
+search_content <- httr::content(search_response, "text")
+search_result <- jsonlite::fromJSON(search_content)
+
+pmids <- search_result$esearchresult$idlist
+
+count <- search_result$esearchresult$count %>% as.numeric()
+retmax <- search_result$esearchresult$retmax %>% as.numeric()
+remainder <- count - retmax
+
+if (remainder > 0) {
+    search_params$retstart <- retmax
+    search_response <- httr::GET(url = search_url, query = search_params)
+    search_content <- httr::content(search_response, "text")
+    search_result <- jsonlite::fromJSON(search_content)
+    pmids <- c(pmids, search_result$esearchresult$idlist)
+}
+
+# length(pmids)
+
+efetch_url <- "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+
+
+
+
+# Prepare the body of the POST request for XML output
+efetch_params <- list(
+  db = "pubmed",
+  id = paste(pmids, collapse = ","),
+  rettype = "abstract",
+  retmode = "xml"
+)
+
+# Query how many pmids
+
+# Make the POST request to fetch abstracts
+efetch_response <- httr::POST(url = efetch_url, body = efetch_params, encode = "form")
+efetch_content <- httr::content(efetch_response, "text", encoding = "UTF-8")
+
+
+# Parse the XML content
+doc <- XML::xmlParse(efetch_content)
+xmltop <- XML::xmlRoot(doc)
+# xmlSize(xmltop)
+# xmlName(xmltop[[1]][[1]][[1]])
+# xmlValue(xmltop[[1]][[]][["PMID"]])
+
+pub_dates <- xpathApply(doc, '//PubmedArticle', \(x) {
+    dplyr::tibble(
+        pmid = xmlValue(x[[1]][["PMID"]]),
+        ab = xmlValue(x[[1]][["Article"]][["Abstract"]]),
+        pub_date = lubridate::ymd(
+            paste(
+                xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Year"]]),
+                xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Month"]]),
+                xmlValue(x[["PubmedData"]][["History"]][["PubMedPubDate"]][["Day"]])
+            )
+        ),
+        title = xmlValue(x[[1]][["Article"]][["ArticleTitle"]]),
+        journal_issn = xmlValue(x[[1]][["Article"]][["Journal"]][["ISSN"]]),
+        journal = xmlValue(x[[1]][["Article"]][["Journal"]][["Title"]]),
+        author_affil = xmlValue(x[[1]][["Article"]][["AuthorList"]][[1]][["AffiliationInfo"]])
+    )
+}) %>% bind_rows()
+
+jsonlite::write_json(pub_dates, path="pubmed.json", pretty = TRUE)
+```
+
+``` r
+a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:lubridate::year(Sys.Date()))
+jsonlite::write_json(a, path="pubmed.json", pretty = TRUE)
+```
