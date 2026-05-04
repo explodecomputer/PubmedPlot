@@ -13,5 +13,6 @@ over time.
 You can install the development version of PubmedPlot like so:
 
 ``` r
+
 remotes::install_github("explodecomputer/PubmedPlot")
 ```

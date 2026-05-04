@@ -1,6 +1,7 @@
 # abstracts
 
 ``` r
+
 library(PubmedPlot)
 library(jsonlite)
 library(dplyr)
@@ -87,6 +88,7 @@ jsonlite::write_json(pub_dates, path="pubmed.json", pretty = TRUE)
 ```
 
 ``` r
+
 a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [Title] OR "Mendelian randomization" [Title]', 2003:lubridate::year(Sys.Date()))
 jsonlite::write_json(a, path="pubmed.json", pretty = TRUE)
 ```
