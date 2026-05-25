@@ -101,10 +101,10 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 501 to 840 
 #> Searching for year: 2021 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2021/01/01"[dp] : "2021/12/31"[dp]) 
-#> Found 1228 articles matching the search term.
+#> Found 1227 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
-#> Fetching records 1001 to 1228 
+#> Fetching records 1001 to 1227 
 #> Searching for year: 2022 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2022/01/01"[dp] : "2022/12/31"[dp]) 
 #> Found 1654 articles matching the search term.
@@ -139,7 +139,7 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 6001 to 6436 
 #> Searching for year: 2025 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2025/01/01"[dp] : "2025/12/31"[dp]) 
-#> Found 7125 articles matching the search term.
+#> Found 7133 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
@@ -154,15 +154,16 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 5501 to 6000 
 #> Fetching records 6001 to 6500 
 #> Fetching records 6501 to 7000 
-#> Fetching records 7001 to 7125 
+#> Fetching records 7001 to 7133 
 #> Searching for year: 2026 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2026/01/01"[dp] : "2026/12/31"[dp]) 
-#> Found 2326 articles matching the search term.
+#> Found 2617 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
 #> Fetching records 1501 to 2000 
-#> Fetching records 2001 to 2326
+#> Fetching records 2001 to 2500 
+#> Fetching records 2501 to 2617
 # write_json(a, "pubmed_abstracts.json", pretty=TRUE)
 b <- group_by_time_interval(a)
 p <- plot_time_interval(b)
