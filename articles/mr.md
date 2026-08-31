@@ -139,7 +139,7 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 6001 to 6437 
 #> Searching for year: 2025 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2025/01/01"[dp] : "2025/12/31"[dp]) 
-#> Found 7135 articles matching the search term.
+#> Found 7132 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
@@ -154,10 +154,10 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 5501 to 6000 
 #> Fetching records 6001 to 6500 
 #> Fetching records 6501 to 7000 
-#> Fetching records 7001 to 7135 
+#> Fetching records 7001 to 7132 
 #> Searching for year: 2026 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2026/01/01"[dp] : "2026/12/31"[dp]) 
-#> Found 4072 articles matching the search term.
+#> Found 4163 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
@@ -166,7 +166,7 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 2501 to 3000 
 #> Fetching records 3001 to 3500 
 #> Fetching records 3501 to 4000 
-#> Fetching records 4001 to 4072
+#> Fetching records 4001 to 4163
 # write_json(a, "pubmed_abstracts.json", pretty=TRUE)
 b <- group_by_time_interval(a)
 p <- plot_time_interval(b)
