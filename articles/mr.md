@@ -101,10 +101,10 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 501 to 840 
 #> Searching for year: 2021 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2021/01/01"[dp] : "2021/12/31"[dp]) 
-#> Found 1228 articles matching the search term.
+#> Found 1229 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
-#> Fetching records 1001 to 1228 
+#> Fetching records 1001 to 1229 
 #> Searching for year: 2022 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2022/01/01"[dp] : "2022/12/31"[dp]) 
 #> Found 1654 articles matching the search term.
@@ -128,6 +128,13 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
 #> Fetching records 1501 to 2000 
+#> Error fetching records: 400 
+#> Response content: <?xml version="1.0" encoding="UTF-8" ?>
+#> <!DOCTYPE eEfetchResult PUBLIC "-//NLM//DTD efetch 20131226//EN" "https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20131226/efetch.dtd">
+#> <eFetchResult>
+#>  <ERROR> Error: External viewer error: Empty Response. Bytes read: 0 Status: Timeout</ERROR>
+#> </eFetchResult>
+#>  
 #> Fetching records 2001 to 2500 
 #> Fetching records 2501 to 3000 
 #> Fetching records 3001 to 3500 
@@ -139,7 +146,7 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 6001 to 6437 
 #> Searching for year: 2025 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2025/01/01"[dp] : "2025/12/31"[dp]) 
-#> Found 7109 articles matching the search term.
+#> Found 7104 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
@@ -154,10 +161,10 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 5501 to 6000 
 #> Fetching records 6001 to 6500 
 #> Fetching records 6501 to 7000 
-#> Fetching records 7001 to 7109 
+#> Fetching records 7001 to 7104 
 #> Searching for year: 2026 
 #> Search term: "Mendelian randomisation" [tiab] OR "Mendelian randomization" [tiab] AND ("2026/01/01"[dp] : "2026/12/31"[dp]) 
-#> Found 4894 articles matching the search term.
+#> Found 5198 articles matching the search term.
 #> Fetching records 1 to 500 
 #> Fetching records 501 to 1000 
 #> Fetching records 1001 to 1500 
@@ -167,7 +174,8 @@ a <- PubmedPlot::search_term_by_year('"Mendelian randomisation" [tiab] OR "Mende
 #> Fetching records 3001 to 3500 
 #> Fetching records 3501 to 4000 
 #> Fetching records 4001 to 4500 
-#> Fetching records 4501 to 4894
+#> Fetching records 4501 to 5000 
+#> Fetching records 5001 to 5198
 # write_json(a, "pubmed_abstracts.json", pretty=TRUE)
 b <- group_by_time_interval(a)
 p <- plot_time_interval(b)
